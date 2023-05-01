@@ -1,0 +1,100 @@
+{% load static %}
+<html>
+<head>
+    <title>House Data</title>
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <style>
+        .filter-table {
+            margin-bottom: 20px;
+        }
+
+        .filter-table th, .filter-table td {
+            padding: 5px;
+            text-align: left;
+        }
+
+        .filter-table select, .filter-table input[type="number"] {
+            width: 150px;
+            padding: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="top-bar">
+        <button class="top-button">Search</button>
+        <button class="top-button">History</button>
+        <button class="top-button">Bookmarks</button>
+    </div>
+    
+    <div class="container">
+        <h1>Mon Location</h1>
+        
+        <table class="filter-table">
+            <tr>
+                <th>Gouvernorat</th>
+                <th>Ville</th>
+                <th>Type</th>
+                <th>Price (min)</th>
+                <th>Price (max)</th> <!-- Added Price (max) column -->
+            </tr>
+            <tr>
+                <td>
+                    <select name="gouvernorat">
+                        <option value="">-- Select Gouvernorat --</option>
+                        <!-- Add options for Gouvernorat here -->
+                    </select>
+                </td>
+                <td>
+                    <select name="ville">
+                        <option value="">-- Select Ville --</option>
+                        <!-- Add options for Ville here -->
+                    </select>
+                </td>
+                <td>
+                    <select name="type">
+                        <option value="">-- Select Type --</option>
+                        <!-- Add options for Type here -->
+                    </select>
+                </td>
+                <td>
+                    <input type="number" name="min-price" placeholder="Minimum Price">
+                </td>
+                <td>
+                    <input type="number" name="max-price" placeholder="Maximum Price">
+                </td> <!-- Added Maximum Price input field -->
+            </tr>
+        </table>
+
+        <table>
+            <tr>
+                <th>Title</th>
+                <th>Location</th>
+                <th>Chambre</th>
+                <th>Price</th>
+                <th>Date Added</th>
+            </tr>
+            {% for house in page_obj %}
+            <tr>
+                <td>{{ house.title }}</td>
+                <td>{{ house.location }}</td>
+                <td>{{ house.chambre }}</td>
+                <td>{{ house.price }}</td>
+                <td>{{ house.date_added }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+
+        <div class="pagination">
+            {% if page_obj.has_previous %}
+                <a href="?page={{ page_obj.previous_page_number }}">Previous</a>
+            {% endif %}
+
+            <span class="current-page">{{ page_obj.number }}</span>
+
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}">Next</a>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>
